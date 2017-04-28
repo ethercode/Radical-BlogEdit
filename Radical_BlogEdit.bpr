@@ -6,6 +6,8 @@
     <PROJECT value="Radical_BlogEdit.exe"/>
     <OBJFILES value="Radical_BlogEdit.obj untMain.obj CMySQL.obj"/>
     <RESFILES value="Radical_BlogEdit.res"/>
+    <IDLFILES value=""/>
+    <IDLGENFILES value=""/>
     <DEFFILE value=""/>
     <RESDEPEN value="$(RESFILES) untMain.dfm"/>
     <LIBFILES value="&quot;C:\Program Files\Borland\CBuilder6\Lib\libmysql.lib&quot;"/>

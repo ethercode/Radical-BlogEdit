@@ -19,6 +19,12 @@
 #define STRING_CLASS AnsiString  //use the VCL ansistring class as the string class
 #endif
 
+struct CMySQL_Binary
+{
+    BYTE*   Data;
+    int     Size;
+};
+
 class CMySQLResult  //query result class
 {
     friend class    CMySQL; //allow the CMySQL class to access private members
@@ -28,14 +34,14 @@ public:
     int             GetResult_Fields();  //get amount of fields in the result set
     STRING_CLASS    GetResult_FieldName(int Field);  //get the name of the field specified by Field
     STRING_CLASS    GetResult_Text(int Row, int Field);  //get the actual query data specified by Row and Field
-
+    CMySQL_Binary*  GetResult_Binary(int Row, int Field);
 private:
                     CMySQLResult();  //constructor
                     ~CMySQLResult();    //destructor
 
     int             Data_Rows;  //amount of rows in result
     int             Data_Fields;    //amount of fields in result
-    STRING_CLASS*   Data_Strings;   //strings in the result
+    CMySQL_Binary*  Data_Binary;  //data as binary
     STRING_CLASS*   Data_FieldNames;     //field names in the result
 
     void            FreeData(); //clear the result set string arrays
@@ -56,8 +62,11 @@ public:
     bool                        IsConnected();   //determine if there is an active connection
     void                        FreeAllResults();  //frees all results that were created by this instance
 
+    static STRING_CLASS         Escape(STRING_CLASS SourceString);
+    STRING_CLASS                GetLastError();
+
 private:
-    MYSQL*                      Connection; //pointer to standard mysql C api connection object
+    MYSQL                       Connection; //pointer to standard mysql C api connection object
     bool                        Connected;   //true if connected
 
     std::list<CMySQLResult*>    Results;  //list of results belonging to this instance
